@@ -24,6 +24,7 @@ public class Driver {
         ProxyCreator pc = new ProxyCreator();
         FileProcessor fp = new FileProcessor(arg3);
         handler.setFileName(arg3);
+        handler.openFile();
 
 //        handler.openFile();
 
@@ -77,6 +78,7 @@ public class Driver {
 
                 myRecordRet = ((RestoreI) cpointRef).readObj("XML");
                 objects.add(myRecordRet);
+                System.out.println(objects.get(j));
                 // FIXME: store myRecordRet in the vector (or arrayList)
             }
 

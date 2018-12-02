@@ -48,22 +48,18 @@ private BufferedReader input;
         fileName = filenameIn;
 
     }
-//    public void openFile()
-//    {
-//        try
-//        {
-//            file = new FileWriter(fileName);
-//        } catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-    public String getLineFromFile() throws IOException {
+    public void openFile() throws FileNotFoundException {
         File f = new File(fileName);
         input = new BufferedReader(new FileReader(f));
+    }
+    public String getLineFromFile() throws IOException {
         String line;
-        while((line = input.readLine()) != null)
+        if((line = input.readLine()) != null)
         {
+            if (line.equals("<DPSerialization>"))
+            {
+                line = input.readLine();
+            }
             return line;
         }
         line = null;
