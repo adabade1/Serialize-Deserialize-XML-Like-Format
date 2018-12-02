@@ -12,9 +12,13 @@ public class MyAllTypesSecond extends SerializableObject {
     public MyAllTypesSecond()
     {
     }
-    public MyAllTypesSecond(double myDoubleTIn)
+    public MyAllTypesSecond(double myDoubleTIn, float myFloatTIn, short myShortTIn, char myCharTIn, double myOtherDoubleTIn)
     {
         myDoubleT = myDoubleTIn;
+        myFloatT = myFloatTIn;
+        myShortT = myShortTIn;
+        myCharT = myCharTIn;
+        myOtherDoubleT = myOtherDoubleTIn;
     }
 
     public double getmyDoubleT() {

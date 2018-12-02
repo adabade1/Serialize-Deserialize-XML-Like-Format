@@ -1,9 +1,6 @@
 package genericCheckpointing.xmlStoreRestore;
 
-import genericCheckpointing.util.FileProcessor;
-import genericCheckpointing.util.SerializableObject;
-import genericCheckpointing.util.Strategy;
-import genericCheckpointing.util.XMLDeserialization;
+import genericCheckpointing.util.*;
 
 
 import java.io.*;
@@ -12,12 +9,15 @@ import java.lang.reflect.Method;
 import java.util.Scanner;
 
 public class StoreRestoreHandler implements InvocationHandler {
-      String fileName;
+     public String fileName;
 //    FileWriter file = null;
 //    FileReader fileReader;
 //    BufferedReader brReader;
 //    FileProcessor fp ;
-private BufferedReader input;
+public BufferedReader input;
+    FileWriter fileWriter;
+public File f;
+
 
 
     @Override
@@ -27,8 +27,19 @@ private BufferedReader input;
         {
             if(args[0].equals("XML"))
             {
+                SerializableObject obj = null;
                 Strategy deserial = new XMLDeserialization();
-                deserializeData(deserial);
+                obj = deserializeData(deserial);
+                return obj;
+            }
+        }
+        else if(method.getName().equals("writeObj"))
+        {
+            if(args[2].equals("XML"))
+            {
+//                System.out.println(args[0]);
+                Strategy serial = new XMLSerialization();
+                serializeData((SerializableObject) args[0], serial);
             }
         }
 
@@ -38,18 +49,33 @@ private BufferedReader input;
         sStrategy.processInput(sObject);
     }
 
-    public Object deserializeData(Strategy dStrategy) throws IOException {
+    public SerializableObject deserializeData(Strategy dStrategy) throws IOException {
         SerializableObject sObject = null;
-        Object des = dStrategy.processInput(sObject);
-        return des;
+        sObject = dStrategy.processInput(sObject);
+//       System.out.println("in handler :"+ sObject.toString());
+        return sObject;
     }
+    public void initializeWrite() {
+
+        try {
+            fileWriter = new FileWriter(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void setFileName(String filenameIn) throws FileNotFoundException {
         fileName = filenameIn;
+        System.out.println("file name set");
+    }
 
+    public void initialziseReadWrite()
+    {
+        f = new File(fileName);
     }
     public void openFile() throws FileNotFoundException {
-        File f = new File(fileName);
+
         input = new BufferedReader(new FileReader(f));
     }
     public String getLineFromFile() throws IOException {
@@ -64,5 +90,26 @@ private BufferedReader input;
         }
         line = null;
         return line;
+    }
+    public void closeFile()
+    {
+        try {
+            System.out.println("Closing file");
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void writeToFile(String str)
+    {
+
+        try {
+//            System.out.println("writing to file" + str);
+            fileWriter.write(str);
+            fileWriter.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -126,7 +126,7 @@ public class XMLDeserialization implements Strategy
 //            }
 
         }
-        System.out.println(sObject);
+//        System.out.println(sObject);
         return sObject;
     }
 }

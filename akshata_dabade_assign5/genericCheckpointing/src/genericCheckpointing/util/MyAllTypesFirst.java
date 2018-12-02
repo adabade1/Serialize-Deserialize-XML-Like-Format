@@ -13,9 +13,14 @@ public class MyAllTypesFirst extends SerializableObject {
     public MyAllTypesFirst()
     {
     }
-    public MyAllTypesFirst(int myIntIn)
+    public MyAllTypesFirst(int myIntIn, long myLongIn, String myStringIn, boolean myBoolIn, int myOtherIntIn, long myOtherLongIn)
     {
         myInt = myIntIn;
+        myOtherInt = myOtherIntIn;
+        myLong = myLongIn;
+        myString = myStringIn;
+        myBool = myBoolIn;
+        myOtherLong = myOtherLongIn;
     }
 
     public int getmyInt() {
