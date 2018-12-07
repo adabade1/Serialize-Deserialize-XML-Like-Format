@@ -1,13 +1,13 @@
 package genericCheckpointing.util;
 
-public class MyAllTypesFirst extends SerializableObject {
+public class MyAllTypesFirst extends SerializableObject implements MyAllTypes{
 
-    public int myInt;
-    public long myLong;
-    public String myString;
-    public boolean myBool;
-    public int myOtherInt;
-    public long myOtherLong;
+    private int myInt;
+    private long myLong;
+    private String myString;
+    private boolean myBool;
+    private int myOtherInt;
+    private long myOtherLong;
 
 
     public MyAllTypesFirst()
@@ -48,7 +48,7 @@ public class MyAllTypesFirst extends SerializableObject {
         this.myString = myString;
     }
 
-    public Boolean getmyBool() {
+    public boolean getmyBool() {
         return myBool;
     }
 
@@ -73,8 +73,34 @@ public class MyAllTypesFirst extends SerializableObject {
     }
 
     @Override
-    public String toString() {
-        return "MyAllTypesFirst [myInt=" + myInt + ", myLong=" + myLong + ", myString=" + myString + ", myBool="
-                + myBool + ", myOtherInt=" + myOtherInt + ", myOtherLong=" + myOtherLong + "]";
+    public String toString()
+    {
+        return "MyAllTypesFirst [myInt:" + myInt + ", myOtherInt:" + myOtherInt + ", myLong:" + myLong + ", myString:" + myString + ", myBool:" + myBool + ", myOtherLong:" + myOtherLong + "]";
+    }
+
+@Override
+	public int hashCode() {
+	return this.getmyInt() * 13;
+	}
+
+
+    @Override
+    public boolean equals(Object objectIn)
+    {
+        if(this.myBool == ((MyAllTypesFirst) objectIn).getmyBool() && this.myString == ((MyAllTypesFirst) objectIn).getmyString() && this.myOtherInt == ((MyAllTypesFirst) objectIn).getmyOtherInt() && this.myLong == ((MyAllTypesFirst) objectIn).getmyLong() && this.myOtherLong == ((MyAllTypesFirst) objectIn).getmyOtherLong() && this.myInt == ((MyAllTypesFirst) objectIn).getmyInt())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int accept(PrimeVisitor visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public int accept(PalindromeVisitor visitor) {
+        return visitor.visit(this);
     }
 }

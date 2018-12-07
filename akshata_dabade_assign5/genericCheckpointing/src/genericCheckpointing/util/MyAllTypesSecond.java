@@ -1,12 +1,12 @@
 package genericCheckpointing.util;
 
-public class MyAllTypesSecond extends SerializableObject {
+public class MyAllTypesSecond extends SerializableObject implements MyAllTypes{
 
-    public double myDoubleT;
-    public float myFloatT;
-    public short myShortT;
-    public char myCharT;
-    public double myOtherDoubleT;
+    private double myDoubleT;
+    private float myFloatT;
+    private short myShortT;
+    private char myCharT;
+    private double myOtherDoubleT;
 
 
     public MyAllTypesSecond()
@@ -64,8 +64,34 @@ public class MyAllTypesSecond extends SerializableObject {
     }
 
     @Override
-    public String toString() {
-        return "MyAllTypesSecond [myDoubleT=" + myDoubleT + ", myFloatT=" + myFloatT + ", myShortT=" + myShortT
-                + ", myCharT=" + myCharT + ", myOtherDoubleT=" + myOtherDoubleT +"]";
+    public String toString()
+    {
+        return "MyAllTypesSecond [myDoubleT=" + myDoubleT + ", myFloatT=" + myFloatT + ", myShortT=" + myShortT + ", myCharT=" + myCharT + ", myOtherDoubleT=" + myOtherDoubleT + "]";
+    }
+
+@Override
+	public int hashCode() {
+	return (int)this.getmyDoubleT() * 13;	}
+
+    @Override
+    public boolean equals(Object objectIn)
+    {
+        if(this.myDoubleT == ((MyAllTypesSecond) objectIn).getmyDoubleT() && this.myCharT == ((MyAllTypesSecond) objectIn).getmyCharT() && this.myFloatT == ((MyAllTypesSecond) objectIn).getmyFloatT() && this.myShortT == ((MyAllTypesSecond) objectIn).getmyShortT() && this.myOtherDoubleT == ((MyAllTypesSecond) objectIn).getmyOtherDoubleT())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int accept(PrimeVisitor visitor)
+    {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public int accept(PalindromeVisitor visitor)
+    {
+        return visitor.visit(this);
     }
 }

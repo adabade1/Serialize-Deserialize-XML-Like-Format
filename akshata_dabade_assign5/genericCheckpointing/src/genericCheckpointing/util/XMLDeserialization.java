@@ -10,12 +10,17 @@ import java.nio.file.AccessDeniedException;
 
 public class XMLDeserialization implements Strategy
 {
+    private FileProcessor fp;
+    public XMLDeserialization(FileProcessor fpIn)
+    {
+        fp = fpIn;
+    }
 
     @Override
     public SerializableObject processInput(SerializableObject sObject) throws IOException {
         String str2;
 
-        str2 = Driver.handler.getLineFromFile();
+        str2 = fp.getLineFromFile();
 //        System.out.println("input file :" + str2);
         String className;
         className = str2.split("[\"<> ]+")[3];
@@ -32,7 +37,7 @@ public class XMLDeserialization implements Strategy
             e.printStackTrace();
         }
 
-        while(!(str2=Driver.handler.getLineFromFile()).equals("</DPSerialization>"))
+        while(!(str2=fp.getLineFromFile()).equals("</DPSerialization>"))
         {
             if(str2.equals(" </complexType>"))
             {
@@ -67,6 +72,11 @@ public class XMLDeserialization implements Strategy
                 {
                     int fldValueInt = Integer.parseInt(fieldValue);
                     set.invoke(sObject, fldValueInt);
+                }
+                else if((fieldName.equals("myOtherInt")))
+                {
+                    int fldValueOtherInt = Integer.parseInt(fieldValue);
+                    set.invoke(sObject, fldValueOtherInt);
                 }
                 else if((fieldName.equals("myString")))
                 {
